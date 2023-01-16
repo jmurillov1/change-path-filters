@@ -46,7 +46,8 @@ jobs:
   default-job:
     name: Check changes in folders
     runs-on: ubuntu-latest
-    if: steps.check-changes.outcome != 'success'
+    needs: check-changes
+    if: needs.check-changes.outcome != 'success'
     steps:
       - name: Print Hola Mundo
         run: echo "Hola Mundo"
