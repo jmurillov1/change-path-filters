@@ -1,0 +1,45 @@
+name: Main Deployment
+
+on:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+jobs:
+  check-changes:
+    name: Check changes in folders
+    runs-on: ubuntu-latest
+    outputs:
+      output-odoo: ${{ steps.filter.outputs.odoo }}
+      output-flutter: ${{ steps.filter.outputs.flutter }}
+      output-rasa: ${{ steps.filter.outputs.rasa }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            odoo:
+              - 'backend/odoo/*'
+            flutter:
+              - 'frontend/*'
+            rasa:
+              - 'backend/rasa-engine/*'
+      - name: workflow tests
+        if: steps.filter.outputs.odoo == 'true'
+        run: echo "Odoo Changes"
+      - name: workflow tests
+        if: steps.filter.outputs.flutter == 'true'
+        run: echo "Flutter Changes"
+      - name: workflow tests
+        if: steps.filter.outputs.rasa == 'true'
+        run: echo "Rasa Changes"
+      - name: workflow tests
+        if: steps.filter.outputs.odoo != 'true'
+        run: echo "Odoo No Changes"
+      - name: workflow tests
+        if: steps.filter.outputs.flutter != 'true'
+        run: echo "Flutter No Changes"
+      - name: workflow tests
+        if: steps.filter.outputs.rasa != 'true'
+        run: echo "Rasa No Changes"
