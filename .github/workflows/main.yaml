@@ -10,38 +10,38 @@ jobs:
     name: Check changes in folders
     runs-on: ubuntu-latest
     outputs:
-      output-odoo: ${{ steps.filter.outputs.odoo }}
-      output-flutter: ${{ steps.filter.outputs.flutter }}
-      output-rasa: ${{ steps.filter.outputs.rasa }}
+      odoo: ${{ steps.filter.outputs.odoo }}
+      flutter: ${{ steps.filter.outputs.flutter }}
+      rasa: ${{ steps.filter.outputs.rasa }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
-        id: changes
+        id: filter
         with:
           filters: |
             odoo:
-              - 'backend/odoo/*'
+              - 'backend/odoo/**'
             flutter:
-              - 'frontend/*'
+              - 'frontend/**'
             rasa:
-              - 'backend/rasa-engine/*'
+              - 'backend/rasa-engine/**'
       - name: Odoo Changes tests
-        if: steps.filter.outputs.output-odoo == 'true'
+        if: steps.filter.outputs.odoo == 'true'
         run: echo "Odoo Changes"
       - name: Flutter Changes tests
-        if: steps.filter.outputs.output-flutter == 'true'
+        if: steps.filter.outputs.flutter == 'true'
         run: echo "Flutter Changes"
       - name: Rasa Changes tests
-        if: steps.filter.outputs.output-rasa == 'true'
+        if: steps.filter.outputs.rasa == 'true'
         run: echo "Rasa Changes"
       - name: Odoo No Changes tests
-        if: steps.filter.outputs.output-odoo != 'true'
+        if: steps.filter.outputs.odoo != 'true'
         run: echo "Odoo No Changes"
       - name: Flutter No Changes tests
-        if: steps.filter.outputs.output-flutter != 'true'
+        if: steps.filter.outputs.flutter != 'true'
         run: echo "Flutter No Changes"
       - name: Rasa No Changes tests
-        if: steps.filter.outputs.output-rasa != 'true'
+        if: steps.filter.outputs.rasa != 'true'
         run: echo "Rasa No Changes"
   check-filters:
     name: Check changes in variables
@@ -49,20 +49,20 @@ jobs:
     needs: check-changes
     steps:
       - name: Odoo Changes tests
-        if: steps.filter.outputs.output-odoo == 'true'
+        if: needs.check-changes.outputs.odoo == 'true'
         run: echo "Odoo Changes 2"
       - name: Flutter Changes tests
-        if: steps.filter.outputs.output-flutter == 'true'
+        if: needs.check-changes.outputs.flutter == 'true'
         run: echo "Flutter Changes 2"
       - name: Rasa Changes tests
-        if: steps.filter.outputs.output-rasa == 'true'
+        if: needs.check-changes.outputs.rasa == 'true'
         run: echo "Rasa Changes 2"
       - name: Odoo No Changes tests
-        if: steps.filter.outputs.output-odoo != 'true'
+        if: needs.check-changes.outputs.odoo != 'true'
         run: echo "Odoo No Changes 2"
       - name: Flutter No Changes tests
-        if: steps.filter.outputs.output-flutter != 'true'
+        if: needs.check-changes.outputs.flutter != 'true'
         run: echo "Flutter No Changes 2"
       - name: Rasa No Changes tests
-        if: steps.filter.outputs.output-rasa != 'true'
+        if: needs.check-changes.outputs.rasa != 'true'
         run: echo "Rasa No Changes 2"
