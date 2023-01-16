@@ -48,6 +48,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: check-changes
     steps:
+      - name: View Status
+        run: echo "Result of test-app was '${{ needs.check-changes.result }}'"
+        run: echo "Result of test-app was '${{ steps.check-changes.outcome }}'"
       - name: Odoo Changes tests
         if: needs.check-changes.outputs.odoo == 'true'
         run: echo "Odoo Changes 2"
