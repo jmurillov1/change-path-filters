@@ -50,6 +50,7 @@ jobs:
     steps:
       - name: View Status
         run: echo "Result of test-app was '${{ needs.check-changes.result }}'"
+      - name: View Status 2
         run: echo "Result of test-app was '${{ steps.check-changes.outcome }}'"
       - name: Odoo Changes tests
         if: needs.check-changes.outputs.odoo == 'true'
