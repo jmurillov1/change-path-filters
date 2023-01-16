@@ -46,6 +46,7 @@ jobs:
   check-filters:
     name: Check changes in variables
     runs-on: ubuntu-latest
+    needs: check-changes
     steps:
       - name: Odoo Changes tests
         if: steps.filter.outputs.output-odoo == 'true'
