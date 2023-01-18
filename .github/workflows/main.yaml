@@ -20,7 +20,7 @@ jobs:
         with:
           filters: |
             odoo:
-              - 'backend/odoo/**'
+              - 'backend/odoo/requirements.txt'
             flutter:
               - 'frontend/**'
             rasa:
