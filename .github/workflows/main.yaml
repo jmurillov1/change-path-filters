@@ -55,7 +55,9 @@ jobs:
     name: Check changes in variables
     runs-on: ubuntu-latest
     needs: [check-changes, default-job]
-    if: needs.default-job.result == 'skipped'
+    if: always() &&
+      needs.check-changes.result == 'success' &&
+      (needs.default-job.result == 'success' || needs.default-job.result == 'skipped')
     steps:
       - name: View Status
         run: echo "Result of test-app was '${{ needs.check-changes.result }}'"
