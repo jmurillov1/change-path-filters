@@ -9,13 +9,12 @@ jobs:
   check-changes:
     name: Check changes in folders
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
     outputs:
       odoo: ${{ steps.filter.outputs.odoo }}
       flutter: ${{ steps.filter.outputs.flutter }}
       rasa: ${{ steps.filter.outputs.rasa }}
     steps:
+      - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
         id: filter
         with:
